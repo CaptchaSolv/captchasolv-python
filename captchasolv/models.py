@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
@@ -17,11 +18,19 @@ class Solution:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Solution:
+        token = data.get("token", "")
+        headers = data.get("headers")
+        if headers is None and token:
+            try:
+                headers = json.loads(token)
+            except (json.JSONDecodeError, TypeError):
+                pass
+        
         return cls(
-            token=data.get("token", ""),
+            token=token,
             user_agent=data.get("userAgent"),
             cookies=data.get("cookies"),
-            headers=data.get("headers"),
+            headers=headers,
             raw=data
         )
 

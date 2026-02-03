@@ -100,10 +100,17 @@ print(result.solution.user_agent)  # User-Agent to use in requests
 ```python
 result = solver.kasada(
     website_url="https://example.com",
-    pjs="https://example.com/path/to/kasada/script.js",  # or use website_key
-    v="optional_version"
+    pjs="https://example.com/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+    v="optional_version"  # optional
 )
-print(result.solution.headers)
+
+# Returns dict with Kasada headers (x-kpsdk-cd, x-kpsdk-ct, x-kpsdk-st, etc.)
+print(result.solution.headers)  # {'x-kpsdk-cd': '...', 'x-kpsdk-ct': '...', ...}
+print(result.solution.user_agent)
+
+# Use headers in your request
+headers = {"User-Agent": result.solution.user_agent}
+headers.update(result.solution.headers)
 ```
 
 ### DataDome
