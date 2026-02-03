@@ -2,16 +2,14 @@ from enum import Enum
 
 
 class TaskType(str, Enum):
-    RECAPTCHA_V2 = "RecaptchaV2TaskProxyless"
-    RECAPTCHA_V2_PROXY = "RecaptchaV2Task"
-    RECAPTCHA_V3 = "RecaptchaV3TaskProxyless"
-    TURNSTILE = "TurnstileTaskProxyless"
-    GEETEST_V4 = "GeeTestV4TaskProxyless"
-    AKAMAI = "AkamaiTaskProxyless"
-    KASADA = "KasadaTaskProxyless"
-    DATADOME = "DataDomeTaskProxyless"
-    AWS_WAF = "AwsWafTaskProxyless"
-    HUMAN_SECURITY = "HumanSecurityTaskProxyless"
+    RECAPTCHA_V3 = "RecaptchaV3Task"
+    TURNSTILE = "TurnstileTask"
+    GEETEST_V4 = "GeeTestV4Task"
+    AKAMAI = "AkamaiTask"
+    KASADA = "KasadaTask"
+    DATADOME = "DataDomeTask"
+    AWS_WAF = "AwsWafTask"
+    HUMAN_SECURITY = "HumanSecurityTask"
 
 
 class ErrorCode(Enum):

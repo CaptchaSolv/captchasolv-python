@@ -91,8 +91,8 @@ result = solver.akamai(
         "bm_sz": "current_bm_sz_cookie_value"
     }
 )
-print(result.solution.sensor_data)
-print(result.solution.cookies)
+print(result.solution.token)       # Cookie string: "_abck=...; bm_sz=..."
+print(result.solution.user_agent)  # User-Agent to use in requests
 ```
 
 ### Kasada

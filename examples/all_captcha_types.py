@@ -39,7 +39,7 @@ def solve_akamai():
             "bm_sz": "current_bm_sz_cookie_value"
         }
     )
-    return result.solution.sensor_data, result.solution.cookies
+    return result.solution.token, result.solution.user_agent
 
 
 def solve_kasada():

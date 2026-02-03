@@ -62,8 +62,20 @@ class AsyncCaptchaSolv:
         user_agent: Optional[str] = None,
         **extra: Any,
     ) -> dict[str, Any]:
+        # Get task type string
+        type_str = task_type.value if isinstance(task_type, TaskType) else task_type
+        
+        # Auto-switch between Proxyless and Proxy variants
+        if proxy is not None:
+            # Remove "Proxyless" suffix if present when using proxy
+            type_str = type_str.replace("Proxyless", "")
+        else:
+            # Add "Proxyless" suffix if not present when no proxy
+            if not type_str.endswith("Proxyless"):
+                type_str = type_str + "Proxyless"
+        
         task: dict[str, Any] = {
-            "type": task_type.value if isinstance(task_type, TaskType) else task_type,
+            "type": type_str,
             "websiteURL": website_url,
         }
         if website_key is not None:
