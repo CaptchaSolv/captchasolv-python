@@ -129,54 +129,83 @@ class AsyncCaptchaSolv:
         website_url: str,
         website_key: str,
         page_action: Optional[str] = None,
+        proxy: Optional[str] = None,
         user_agent: Optional[str] = None,
     ) -> TaskResult:
         extra: dict[str, Any] = {}
         if page_action is not None:
             extra["pageAction"] = page_action
-        return await self.solve(TaskType.RECAPTCHA_V3, website_url, website_key, user_agent=user_agent, **extra)
+        return await self.solve(TaskType.RECAPTCHA_V3, website_url, website_key, proxy=proxy, user_agent=user_agent, **extra)
 
     async def turnstile(
         self,
         website_url: str,
         website_key: str,
+        proxy: Optional[str] = None,
         user_agent: Optional[str] = None,
     ) -> TaskResult:
-        return await self.solve(TaskType.TURNSTILE, website_url, website_key, user_agent=user_agent)
+        return await self.solve(TaskType.TURNSTILE, website_url, website_key, proxy=proxy, user_agent=user_agent)
 
     async def geetest_v4(
         self,
         website_url: str,
-        captcha_id: str,
+        website_key: str,
+        proxy: Optional[str] = None,
         user_agent: Optional[str] = None,
     ) -> TaskResult:
-        return await self.solve(TaskType.GEETEST_V4, website_url, captchaId=captcha_id, user_agent=user_agent)
+        return await self.solve(TaskType.GEETEST_V4, website_url, website_key, proxy=proxy, user_agent=user_agent)
 
     async def akamai(
         self,
         website_url: str,
+        akamai_script: Optional[str] = None,
+        website_key: Optional[str] = None,
+        data: Optional[dict[str, str]] = None,
+        proxy: Optional[str] = None,
         user_agent: Optional[str] = None,
     ) -> TaskResult:
-        return await self.solve(TaskType.AKAMAI, website_url, user_agent=user_agent)
+        script = akamai_script or website_key
+        if script is None:
+            raise ValueError("akamai_script or website_key is required")
+        extra: dict[str, Any] = {}
+        if data is not None:
+            extra["data"] = data
+        return await self.solve(TaskType.AKAMAI, website_url, proxy=proxy, user_agent=user_agent, akamaiScript=script, **extra)
 
     async def kasada(
         self,
         website_url: str,
+        pjs: Optional[str] = None,
+        website_key: Optional[str] = None,
+        v: Optional[str] = None,
+        proxy: Optional[str] = None,
         user_agent: Optional[str] = None,
     ) -> TaskResult:
-        return await self.solve(TaskType.KASADA, website_url, user_agent=user_agent)
+        script = pjs or website_key
+        if script is None:
+            raise ValueError("pjs or website_key is required")
+        extra: dict[str, Any] = {}
+        if v is not None:
+            extra["v"] = v
+        return await self.solve(TaskType.KASADA, website_url, proxy=proxy, user_agent=user_agent, pjs=script, **extra)
 
     async def datadome(
         self,
         website_url: str,
-        captcha_url: str,
+        website_key: Optional[str] = None,
+        proxy: Optional[str] = None,
         user_agent: Optional[str] = None,
     ) -> TaskResult:
-        return await self.solve(TaskType.DATADOME, website_url, captchaUrl=captcha_url, user_agent=user_agent)
+        return await self.solve(TaskType.DATADOME, website_url, website_key, proxy=proxy, user_agent=user_agent)
 
     async def aws_waf(
         self,
         website_url: str,
+        aws_key: Optional[str] = None,
+        proxy: Optional[str] = None,
         user_agent: Optional[str] = None,
     ) -> TaskResult:
-        return await self.solve(TaskType.AWS_WAF, website_url, user_agent=user_agent)
+        extra: dict[str, Any] = {}
+        if aws_key is not None:
+            extra["awsKey"] = aws_key
+        return await self.solve(TaskType.AWS_WAF, website_url, proxy=proxy, user_agent=user_agent, **extra)
