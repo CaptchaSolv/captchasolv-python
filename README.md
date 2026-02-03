@@ -83,14 +83,26 @@ result = solver.turnstile(
 ### Akamai
 
 ```python
-result = solver.akamai(website_url="https://example.com")
+result = solver.akamai(
+    website_url="https://example.com",
+    akamai_script="https://example.com/path/to/akamai/script.js",  # or use website_key
+    data={
+        "_abck": "current_abck_cookie_value",
+        "bm_sz": "current_bm_sz_cookie_value"
+    }
+)
+print(result.solution.sensor_data)
 print(result.solution.cookies)
 ```
 
 ### Kasada
 
 ```python
-result = solver.kasada(website_url="https://example.com")
+result = solver.kasada(
+    website_url="https://example.com",
+    pjs="https://example.com/path/to/kasada/script.js",  # or use website_key
+    v="optional_version"
+)
 print(result.solution.headers)
 ```
 
@@ -107,7 +119,10 @@ print(result.solution.cookies)
 ### AWS WAF
 
 ```python
-result = solver.aws_waf(website_url="https://example.com")
+result = solver.aws_waf(
+    website_url="https://example.com",
+    aws_key="AQIDAHjcYu/GjX+QlghicBg..."
+)
 ```
 
 ### GeeTest V4
@@ -115,8 +130,45 @@ result = solver.aws_waf(website_url="https://example.com")
 ```python
 result = solver.geetest_v4(
     website_url="https://example.com",
-    captcha_id="647f5ed2ed8acb4be36784e01556bb71"
+    website_key="647f5ed2ed8acb4be36784e01556bb71"
 )
+```
+
+## Using Proxies
+
+All convenience methods support an optional `proxy` parameter:
+
+```python
+# Turnstile with proxy
+result = solver.turnstile(
+    website_url="https://example.com",
+    website_key="0x4AAAAAAABS7vwvV6VFfMcD",
+    proxy="http://user:pass@proxy.example.com:8080"
+)
+
+# Akamai with proxy
+result = solver.akamai(
+    website_url="https://example.com",
+    akamai_script="https://example.com/script.js",
+    proxy="socks5://user:pass@proxy.example.com:1080"
+)
+
+# Kasada with proxy
+result = solver.kasada(
+    website_url="https://example.com",
+    pjs="https://example.com/ips.js",
+    proxy="http://proxy.example.com:8080"
+)
+```
+
+### Supported Proxy Formats
+
+```
+http://host:port
+http://user:pass@host:port
+https://user:pass@host:port
+socks4://host:port
+socks5://user:pass@host:port
 ```
 
 ## Generic Solve Method
