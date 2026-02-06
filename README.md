@@ -164,18 +164,15 @@ result = solver.akamai(
 result = solver.kasada(
     website_url="https://example.com",
     pjs="https://example.com/ips.js",
-    proxy="http://proxy.example.com:8080"
+    proxy="proxy.example.com:8080"
 )
 ```
 
 ### Supported Proxy Formats
 
 ```
-http://host:port
-http://user:pass@host:port
-https://user:pass@host:port
-socks4://host:port
-socks5://user:pass@host:port
+host:port
+user:pass@host:port
 ```
 
 ## Generic Solve Method
@@ -270,5 +267,6 @@ print(result.solve_count)
 - [Documentation](https://docs.captchasolv.com)
 
 ## License
+
 
 MIT
